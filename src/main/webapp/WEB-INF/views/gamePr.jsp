@@ -16,7 +16,24 @@
 <style type="text/css">
 /* 캔버스 위치, 크기 체크용 */
 #canvas {
+position: absolute;
 	border: 1px solid #d3d3d3;;
+}
+/* 유리판 */
+#glassPane {
+	position: absolute;
+	left: 50px;
+	top: 50px;
+	padding: 0px 20px 10px 10px;
+	background: rgba(0, 0, 0, 0.3);
+	border: thin solid rgba(0, 0, 0, 0.6);
+	color: # #eeeeee;
+	font-family: Droid Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	cursor: pointer;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 20px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 20px;
+	box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 20px;
 }
 </style>
 
@@ -35,7 +52,9 @@ $(function() {
 		var spacekey = false; // 스페이스 키
 		
 		// 플레이 객체
-		var playerUnit={};
+		var playerUnit={}; // 플레이어
+		var EnemyHangul={}; // 스테이지1 적객체
+		
 		
 		// 시동 걸기
 		function loadGame() {
@@ -71,7 +90,6 @@ $(function() {
 		
 		}
 		
-		var count = 50;
 		// 지우고 전체 다 다시 그려주는 곳
 		function renderGame(){
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -82,10 +100,8 @@ $(function() {
 			
 			// 단어장들 그리기
 			  var rectangle = new Path2D();
-    rectangle.rect(count, count, 50, 50);
+  				  rectangle.rect(100, 100, 50, 50);
 			ctx.stroke(rectangle);
-			
-			count=count+1;
 			
 		}
 		
@@ -176,7 +192,11 @@ $(function() {
 </script>
 </head>
 <body>
+
 	<canvas id="canvas" width="1000" height="500"></canvas>
-	<div id="startButton"><button>o.O</button></div>
+	<div id="glassPane">
+		<h2 class="title">으응..그래..</h2>
+		<a id="startBtn">o.O</a>
+	</div>
 </body>
 </html>

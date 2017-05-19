@@ -28,11 +28,19 @@ public class HomeController {
 		
 		return "home";
 	}
+	
 	@RequestMapping(value = "/gamePr", method = RequestMethod.GET)
 	public String goToGame(Locale locale, Model model) {
 
 		
 		return "gamePr";
+	}
+	
+	@RequestMapping(value = "/gamePrBack", method = RequestMethod.GET)
+	public String goToGameBack(Locale locale, Model model) {
+
+		
+		return "gamePrBack";
 	}
 	
 }

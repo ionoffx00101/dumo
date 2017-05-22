@@ -71,8 +71,6 @@ $(function() {
 		
 		// 스테이지 1 적 객체
 		var EnemyHangul; // 스테이지1 적객체
-		var EnemyHangulInfo;
-		var EnemyHangulMax=10;
 		var EnemyHangulWord = 
 		{
 				"EnemyHangulWord":
@@ -100,10 +98,9 @@ $(function() {
 			makePlayerUnit();
 			
 			// 한글 객체 채우기
-			EnemyHangul= new Array();
-			EnemyHangulInfo = new Array();
-			createEnemyHangul(EnemyHangulMax);
-		
+			
+			makeEnemyHangulUnit();
+			
 			// 창 자체에 이벤트 리스너를 설정 //document O, canvas X , window O
 			document.addEventListener("keydown", getKeyDown, false);
 			document.addEventListener("keyup", getKeyUp, false);
@@ -115,9 +112,6 @@ $(function() {
 		
 		// 게임 실행
 		function loopGame(){
-			
-
-
 			// 한번 실행
 			// backGroundMusic.play(); // 배경음악 객체 플레이
 			
@@ -167,35 +161,7 @@ $(function() {
 			ctx.fill(rectangle);
 			
 			// 단어장들 그리기
-			ctx.font="20px Georgia";
-			ctx.fillText("Big smile!",450,90); // x, y
-			
-			playerUnitText = playerUnit.y+", ";
 
-			
-			for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
-				// true인지 확인ㄱ
-				// true 인것만 화면에 위치값으로 그려주고 해당 x값 마이너스 시켜주기 ->계산 루프에서 따로 시킬까
-				// 적객체 최대치 지역변수로 지정해놓고 
-				// 적객체 만드는 함수 내에서 지역변수 만큼만 반복문을 ㄴ돌려주ㅝ야함
-				//console.log(oneHangulInfo.use);
-				
-				var oneHangul = EnemyHangul[i];
-				var oneHangulInfo = EnemyHangulInfo[i];
-				
-				//console.log(oneHangulInfo.use);
-				
-			 	 if(oneHangulInfo.use){ // in ㄴㄴ
-					ctx.font="20px Georgia";
-					ctx.fillText(oneHangulInfo.word,oneHangul.x,oneHangul.y); // x, y
-					
-					oneHangul.x=oneHangul.x-3; // 이 계산을 밖으로 보내야해야한다
-					
-					if(oneHangul.x<0){
-						oneHangulInfo.use= false;
-					}
-				}
-			}
 			
 		}
 	
@@ -230,57 +196,20 @@ $(function() {
 					x : 100,
 					y : 330,
 					width : 150,
-					height : 150,
-					
+					height : 150
 			};
 		}
 
 		// 한글 객체를 만드는 곳
-		function createEnemyHangul(wordcount){
-
-			for (var i = 0; i < wordcount; i++) {
-				
-				var startY=((Math.random() <= 0.5) ? 380 : 420);//)*150;
-				
-				var enemy = {
-					x : 1000,
-					y : startY,
-					
-				};
-				var enemyinfo = {
-						width:0,
-						height:0,
-						word:"댕댕",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
-						use :true //1 캔버스에 그려주는 지 스킵하는지 용도
-				};
-				
-				 
-				EnemyHangul.push(enemy);
-				EnemyHangulInfo.push(enemyinfo);
-			}
+		function makeEnemyHangulUnit(){
+			EnemyHangul={
+				x:0,
+				y:0,
+				width:0,
+				height:0
+			};
 		}
-		// 한글 객체를 쓰는 곳
-		function useEnemyHangul(wordcount) {
-			
-			for (var i = 0; i < wordcount; i++) {
-			/* 	if(enemyBallscnt>enemyBallsMax-1){
-					enemyBallscnt=0;
-				} */
-				console.log(enemyBallscnt+'개 작동중');
-				if(enemyBallscnt<EnemyHangulMax){
-				/* 탄환의 시작 위치 설정 */
-				
-				enemyBalls[enemyBallscnt].y = 0;
-
-				/* 탄환의 방향,속도 설정 */
-				enemyBallsinfo[enemyBallscnt].angle = Math.floor((Math.random() * 60) + 60);
-				enemyBallsinfo[enemyBallscnt].speed = Math.floor(Math.random() * (2)) + 6;
-				enemyBallsinfo[enemyBallscnt].use = true; 
-				enemyBallscnt++;
-				}
-			}
-		}
-
+		
 		// 키 누름 
 		function getKeyDown(event) { 
 			var keyValue;

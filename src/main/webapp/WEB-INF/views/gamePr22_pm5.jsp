@@ -173,7 +173,7 @@ $(function() {
 			playerUnitText = playerUnit.y+", ";
 
 			
-			for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
+			for(var i=0;i<=EnemyHangul.length;i++){ // 적객 체 돌려
 				// true인지 확인ㄱ
 				// true 인것만 화면에 위치값으로 그려주고 해당 x값 마이너스 시켜주기 ->계산 루프에서 따로 시킬까
 				// 적객체 최대치 지역변수로 지정해놓고 
@@ -182,17 +182,16 @@ $(function() {
 				
 				var oneHangul = EnemyHangul[i];
 				var oneHangulInfo = EnemyHangulInfo[i];
+				console.log(oneHangulInfo);
 				
-				//console.log(oneHangulInfo.use);
-				
-			 	 if(oneHangulInfo.use){ // in ㄴㄴ
+				if(oneHangulInfo.use == 0){ // in ㄴㄴ
 					ctx.font="20px Georgia";
 					ctx.fillText(oneHangulInfo.word,oneHangul.x,oneHangul.y); // x, y
 					
-					oneHangul.x=oneHangul.x-3; // 이 계산을 밖으로 보내야해야한다
+					oneHangul.x=oneHangul.x-3
 					
 					if(oneHangul.x<0){
-						oneHangulInfo.use= false;
+						oneHangulInfo.use=0;
 					}
 				}
 			}
@@ -237,24 +236,35 @@ $(function() {
 
 		// 한글 객체를 만드는 곳
 		function createEnemyHangul(wordcount){
-
+			// 단어를 단어장에서 꺼내서 하나씩 집어넣으려면 어떻게해야하나
+			// console.log("호출됨"); o
+/* 			for(var i=0;i<EnemyHangulMax;i++){
+				EnemyHangul[i]={
+						x:0,
+						y:0,
+						width:0,
+						height:0,
+						word:"댕댕",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
+						visible : false // 캔버스에 그려주는 지 스킵하는지 용도
+					};
+			} */
 			for (var i = 0; i < wordcount; i++) {
 				
-				var startY=((Math.random() <= 0.5) ? 380 : 420);//)*150;
-				
+				// var startY= Math.floor(Math.random() * (canvas.height - 1)) + 1;
+				var startY=((Math.random() <= 0.5) ? 1 : 2)*150;
+				// 150, 300
+				// 랜덤으로 1,2 만 나오게 해서 곱하기 150을 시키자
 				var enemy = {
 					x : 1000,
-					y : startY,
-					
+					y : startY
 				};
 				var enemyinfo = {
 						width:0,
 						height:0,
 						word:"댕댕",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
-						use :true //1 캔버스에 그려주는 지 스킵하는지 용도
+						use:0 // 캔버스에 그려주는 지 스킵하는지 용도
 				};
 				
-				 
 				EnemyHangul.push(enemy);
 				EnemyHangulInfo.push(enemyinfo);
 			}

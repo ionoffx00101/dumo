@@ -31,7 +31,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/gamePr", method = RequestMethod.GET)
 	public String goToGame(Locale locale, Model model) {
-
+		
+		// DB 서비스 불러서 가져옴
 		
 		return "gamePr";
 	}

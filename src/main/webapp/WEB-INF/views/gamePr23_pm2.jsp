@@ -67,11 +67,6 @@ $(function() {
 		
 		// 플레이어 객체
 		var playerUnit={}; // 플레이어
-		var playerImgWalk1= new Image();
-		var playerImgWalk2= new Image();
-		var playerImgJump= new Image();
-		var playerWalkTime = 0;
-		var playerWalkTimeLimit =20;
 		
 		// 스테이지 1 적 객체
 		var EnemyHangul; // 스테이지1 적객체 배열
@@ -96,9 +91,6 @@ $(function() {
 
 			// 플레이 객체들 채워주기
 			makePlayerUnit();
-			playerImgWalk1.src = "<%=cp%>/resources/images/charactor/female_walk1.png";
-			playerImgWalk2.src = "<%=cp%>/resources/images/charactor/female_walk2.png";
-			playerImgJump.src = "<%=cp%>/resources/images/charactor/female_jump.png";
 			
 			// 한글 적 객체 채우기
 			EnemyHangul= new Array();
@@ -134,16 +126,6 @@ $(function() {
 				// 단어 움직임 로직
 				useEnemyHangul();
 				
-				// 적객체와 플레이어 충돌 처리		
-				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
-					
-					var oneHangul = EnemyHangul[i];
-					
-				 	 if(oneHangul.use){
-				 		console.log(playerUnit.x+" , "+playerUnit.y+" / "+oneHangul.x+", "+oneHangul.y);
-					}
-				}
-				
 				// 그리기
 				renderGame();
 			},  1000 / 60);  //60
@@ -163,41 +145,22 @@ $(function() {
 			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvasHeight);
 			
 			// 플레이어 그리기
-			if(!spacekey){ //playerUnit.jump
-				if(playerUnit.walk){
-					ctx.drawImage(playerImgWalk1,playerUnit.x,playerUnit.y);
-					
-					playerWalkTime++;
-					if(playerWalkTime>playerWalkTimeLimit){
-						playerUnit.walk=false;
-						playerWalkTime=0;
-					}
-				}
-				else{
-					ctx.drawImage(playerImgWalk2,playerUnit.x,playerUnit.y);
-					
-					playerWalkTime++;
-					if(playerWalkTime>playerWalkTimeLimit){
-						playerUnit.walk=true;
-						playerWalkTime=0;
-					}
-				}
-			}
-			else{
-				ctx.drawImage(playerImgJump,playerUnit.x,playerUnit.y);
-			}
+			var rectangle = new Path2D();
+  			rectangle.rect(playerUnit.x, playerUnit.y, playerUnit.width, playerUnit.height);
+			ctx.fill(rectangle);
 			
 			// 단어 그림
 			for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
 				
 				var oneHangul = EnemyHangul[i];
 				
-			 	 if(oneHangul.use){
+				//console.log(oneHangul.x+", "+oneHangul.y);
+				
+			 	 if(oneHangul.use){ // in ㄴㄴ
 					ctx.font="20px Georgia";
-					ctx.fillStyle = 'white';
 					ctx.fillText(oneHangul.word,oneHangul.x,oneHangul.y); // x, y
 						
-					if(oneHangul.x<-10){ //0
+					if(oneHangul.x<0){
 						oneHangul.use= false;
 					}
 				}
@@ -228,22 +191,24 @@ $(function() {
 					y : 330,
 					width : 150,
 					height : 150,
-					walk:true
+					
 			};
 		}
 
 		// 한글 객체를 만드는 곳
 		function createEnemyHangul(wordcount){
+
 			for (var i = 0; i < wordcount; i++) {
+				
 				var enemy = {
 					x : 1000,
 					y : 600,
 					width:0,
 					height:0,
 					word:"",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
-					wordCheck:true, // 단어의 정답 여부
 					use :false //1 캔버스에 그려주는 지 스킵하는지 용도
-				}; 
+				};
+				 
 				EnemyHangul.push(enemy);
 			}
 		}
@@ -272,7 +237,7 @@ $(function() {
 						
 						EnemyHangul[randomNum].x=1000; // x바꿈
 						EnemyHangul[randomNum].y=startY; // Y바꿈
-						EnemyHangul[randomNum].word="ㅁㅁㅁㅁㅁㅁ";
+						EnemyHangul[randomNum].word="바꿈";
 						EnemyHangul[randomNum].use=true;
 					}
 				}

@@ -71,7 +71,7 @@ $(function() {
 		
 		// 스테이지 1 적 객체
 		var EnemyHangul; // 스테이지1 적객체
-		var EnemyHangulInfo;
+		var hangulViewCount=1; // 화면에 보이는 적객체 수 설정
 		var EnemyHangulMax=10;
 		var EnemyHangulWord = 
 		{
@@ -101,7 +101,6 @@ $(function() {
 			
 			// 한글 객체 채우기
 			EnemyHangul= new Array();
-			EnemyHangulInfo = new Array();
 			createEnemyHangul(EnemyHangulMax);
 		
 			// 창 자체에 이벤트 리스너를 설정 //document O, canvas X , window O
@@ -110,42 +109,17 @@ $(function() {
 			
 			// 게임 스타트
 			// loopGame(); // 게임 스타트 함수 호출
-			scrollImg.onload = loopGame;
+			scrollImg.onload = startGame; // 배경이미지 로딩이 끝나면 게임 스타트
 		}
 		
 		// 게임 실행
-		function loopGame(){
-			
-
-
-			// 한번 실행
-			// backGroundMusic.play(); // 배경음악 객체 플레이
-			
-			// 반복 실행
-			// 배경 
-
-		/* setInterval(() => {
-				// 사용된 이미지의 폭과 너비를 저장하고 그림용 펜의 역할을 수행하는 캔버스 템프에도 담아둔다 
-				imgWidth = scrollImg.width, imgHeight = scrollImg.height;
-				canvasTemp.width = imgWidth;
-				canvasTemp.height = imgHeight;
-	
-				// 그림을 그리고 현재 그림의 테이터를 담아둔다 
-				tempContext.drawImage(scrollImg, 0, 0, imgWidth, imgHeight);
-				imageData = tempContext.getImageData(0, 0, imgWidth, imgHeight);
-	
-				//캔버스 버퍼 객체에 펜을 담는다
-				canvasBuffer = document.createElement("canvas");
-
-				renderGame();
-			},  1000);  //60
-			*/
-			
-			
-			
+		function startGame(){
+						
 			// 적이 지정된 시간마다 움직임 // setTimeout, setInterval
 			setInterval(() => {
-				// 값 계산
+				// 단어 움직임 로직
+				useEnemyHangul();
+				// 그리기
 				renderGame();
 			},  1000 / 60);  //60
 		
@@ -166,33 +140,21 @@ $(function() {
   			rectangle.rect(playerUnit.x, playerUnit.y, playerUnit.width, playerUnit.height);
 			ctx.fill(rectangle);
 			
-			// 단어장들 그리기
-			ctx.font="20px Georgia";
-			ctx.fillText("Big smile!",450,90); // x, y
 			
-			playerUnitText = playerUnit.y+", ";
-
 			
+			// 단어 그림
 			for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
-				// true인지 확인ㄱ
-				// true 인것만 화면에 위치값으로 그려주고 해당 x값 마이너스 시켜주기 ->계산 루프에서 따로 시킬까
-				// 적객체 최대치 지역변수로 지정해놓고 
-				// 적객체 만드는 함수 내에서 지역변수 만큼만 반복문을 ㄴ돌려주ㅝ야함
-				//console.log(oneHangulInfo.use);
 				
 				var oneHangul = EnemyHangul[i];
-				var oneHangulInfo = EnemyHangulInfo[i];
 				
-				//console.log(oneHangulInfo.use);
+				//console.log(oneHangul.x+", "+oneHangul.y);
 				
-			 	 if(oneHangulInfo.use){ // in ㄴㄴ
+			 	 if(oneHangul.use){ // in ㄴㄴ
 					ctx.font="20px Georgia";
-					ctx.fillText(oneHangulInfo.word,oneHangul.x,oneHangul.y); // x, y
-					
-					oneHangul.x=oneHangul.x-3; // 이 계산을 밖으로 보내야해야한다
-					
+					ctx.fillText(oneHangul.word,oneHangul.x,oneHangul.y); // x, y
+						
 					if(oneHangul.x<0){
-						oneHangulInfo.use= false;
+						oneHangul.use= false;
 					}
 				}
 			}
@@ -240,44 +202,48 @@ $(function() {
 
 			for (var i = 0; i < wordcount; i++) {
 				
-				var startY=((Math.random() <= 0.5) ? 380 : 420);//)*150;
-				
 				var enemy = {
 					x : 1000,
-					y : startY,
-					
+					y : 600,
+					width:0,
+					height:0,
+					word:"",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
+					use :false //1 캔버스에 그려주는 지 스킵하는지 용도
 				};
-				var enemyinfo = {
-						width:0,
-						height:0,
-						word:"댕댕",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
-						use :true //1 캔버스에 그려주는 지 스킵하는지 용도
-				};
-				
 				 
 				EnemyHangul.push(enemy);
-				EnemyHangulInfo.push(enemyinfo);
 			}
 		}
 		// 한글 객체를 쓰는 곳
-		function useEnemyHangul(wordcount) {
-			
-			for (var i = 0; i < wordcount; i++) {
-			/* 	if(enemyBallscnt>enemyBallsMax-1){
-					enemyBallscnt=0;
-				} */
-				console.log(enemyBallscnt+'개 작동중');
-				if(enemyBallscnt<EnemyHangulMax){
-				/* 탄환의 시작 위치 설정 */
-				
-				enemyBalls[enemyBallscnt].y = 0;
-
-				/* 탄환의 방향,속도 설정 */
-				enemyBallsinfo[enemyBallscnt].angle = Math.floor((Math.random() * 60) + 60);
-				enemyBallsinfo[enemyBallscnt].speed = Math.floor(Math.random() * (2)) + 6;
-				enemyBallsinfo[enemyBallscnt].use = true; 
-				enemyBallscnt++;
+		function useEnemyHangul() {
+			var useCount = 0;
+			// 화면에 보이는 단어 3개로 조정하기 위해서
+			for(var i=0; i<EnemyHangul.length;i++){
+				if(EnemyHangul[i].use){
+					useCount++;
+					// true인 친구들은 왼쪽으로 보냄
+					EnemyHangul[i].x=EnemyHangul[i].x-3;
 				}
+			}
+			// 화면에 보이는 게 hangulViewCount이하면 한개 내보냄
+			if(useCount<hangulViewCount){
+				// 랜덤 Y값 준비
+				var startY=((Math.random() <= 0.5) ? 380 : 420);//)*150;
+				// X값 초기화, Y값이랑 word값, use 값을 고쳐야함
+				
+				var bool = true;
+				while(bool){
+					var randomNum = Math.floor((Math.random() * 10));
+					if(!EnemyHangul[randomNum].use){
+						bool=false; // 반복문 내보냄
+						
+						EnemyHangul[randomNum].x=1000; // x바꿈
+						EnemyHangul[randomNum].y=startY; // Y바꿈
+						EnemyHangul[randomNum].word="바꿈";
+						EnemyHangul[randomNum].use=true;
+					}
+				}
+				
 			}
 		}
 

@@ -116,12 +116,12 @@ $(function() {
 			setInterval(() => {
 				// 배경화면 스크롤 함수
 				// 스크롤 한바퀴 다돌아 간경우 스크롤을 초기화한다
-				if (scrollVal >= canvas.height - speed) {
-					scrollVal = 0;
+				if (scrollVal <= 0) {
+					scrollVal = canvas.width + speed;
 				}
 				
 				// 지정된 속도를 기준으로 스크롤의 값이 늘어난다(그리는 위치가 변경된다)
-				scrollVal += speed;
+				scrollVal -= speed;
 				
 				// 단어 움직임 로직
 				useEnemyHangul();
@@ -137,12 +137,12 @@ $(function() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			
 			// 배경 그리기
-			imageData = tempContext.getImageData(0, canvas.height - scrollVal, canvas.width, canvas.height);
+			imageData = tempContext.getImageData(canvas.width - scrollVal,0, canvas.width, canvas.height);
 			ctx.putImageData(imageData, 0, 0, 0, 0, canvas.width, imgHeight);
 
 			// 배경 스크롤을 그려주는 부분
-			imageData = tempContext.getImageData(0, 0, canvas.width, canvas.height - scrollVal);
-			ctx.putImageData(imageData, 0, scrollVal, 0, 0, canvas.width, imgHeight);
+			imageData = tempContext.getImageData(0, 0, canvas.width - scrollVal, canvas.height);
+			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvas.height);
 			
 			// 플레이어 그리기
 			var rectangle = new Path2D();

@@ -448,19 +448,10 @@ body {
 			imageData = tempContext.getImageData(0, 0, canvasWidth, canvasHeight - scrollVal);
 			ctx.putImageData(imageData, 0, scrollVal, 0, 0, canvasWidth, imgHeight);
 
-			imageData = tempContext.getImageData(0, canvasHeight - scrollVal, canvasWidth, canvasHeight);
-			ctx2.putImageData(imageData, 0, 0, 0, 0, canvasWidth, imgHeight);
-
-			imageData = tempContext.getImageData(0, 0, canvasWidth, canvasHeight - scrollVal);
-			ctx2.putImageData(imageData, 0, scrollVal, 0, 0, canvasWidth, imgHeight);
 
 			ctx.font = 'bold 55px Verdana';
 			ctx.fillStyle = '#ffffff';
 			ctx.fillText('Ready!', 150, 350);
-
-			ctx2.font = 'bold 55px Verdana';
-			ctx2.fillStyle = '#ffffff';
-			ctx2.fillText('Ready!', 150, 350);
 
 			setTimeout(function() {
 				ctx.clearRect(0, 0, canvasWidth, canvasHeight);

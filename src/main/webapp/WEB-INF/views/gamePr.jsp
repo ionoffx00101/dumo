@@ -50,10 +50,10 @@ $(function() {
 		var imgHeight = 0;
 		var imageData = {};
 		var scrollVal = 0;
-		var speed = 2;
+		var speed = 1;
 		
-		var canvasWidth = canvas.width;
-		var canvasHeight = canvas.height;
+		var canvasWidth = 2937;//canvas.width;
+		var canvasHeight = 532;//canvas.height;
 		
 		// 스크롤 이미지
 		var scrollImg= new Image();
@@ -116,8 +116,8 @@ $(function() {
 			setInterval(() => {
 				// 배경화면 스크롤 함수
 				// 스크롤 한바퀴 다돌아 간경우 스크롤을 초기화한다
-				if (scrollVal <= 0) {
-					scrollVal = canvas.width + speed;
+				if (scrollVal <= speed) { //1 5 0 2가 0오류 안남
+					scrollVal = canvasWidth - speed;
 				}
 				
 				// 지정된 속도를 기준으로 스크롤의 값이 늘어난다(그리는 위치가 변경된다)
@@ -137,12 +137,12 @@ $(function() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			
 			// 배경 그리기
-			imageData = tempContext.getImageData(canvas.width - scrollVal,0, canvas.width, canvas.height);
-			ctx.putImageData(imageData, 0, 0, 0, 0, canvas.width, imgHeight);
+			imageData = tempContext.getImageData(canvasWidth - scrollVal,0, canvasWidth, canvasHeight);
+			ctx.putImageData(imageData, 0, 0, 0, 0, canvasWidth, imgHeight);
 
 			// 배경 스크롤을 그려주는 부분
-			imageData = tempContext.getImageData(0, 0, canvas.width - scrollVal, canvas.height);
-			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvas.height);
+			imageData = tempContext.getImageData(0, 0, canvasWidth - scrollVal, canvasHeight);
+			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvasHeight);
 			
 			// 플레이어 그리기
 			var rectangle = new Path2D();
@@ -171,8 +171,8 @@ $(function() {
 		// 배경 이미지 로딩
 		function loadImage() {
 			/* 사용된 이미지의 폭과 너비를 저장하고 그림용 펜의 역할을 수행하는 캔버스 템프에도 담아둔다  */
-			imgWidth = scrollImg.width;
-			imgHeight = scrollImg.height;
+			imgWidth =  scrollImg.width || scrollImg.naturalWidth;//scrollImg.width;
+			imgHeight = scrollImg.height || scrollImg.naturalHeight;//scrollImg.height;
 			canvasTemp.width = imgWidth;
 			canvasTemp.height = imgHeight;
 

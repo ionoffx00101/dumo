@@ -25,6 +25,15 @@
 	left: 450px;
 	top: 150px;
 	padding: 0px 20px 10px 10px;
+	/* background: rgba(0, 0, 0, 0.3);
+	border: thin solid rgba(0, 0, 0, 0.6);
+	color: # #eeeeee;
+	font-family: Droid Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	cursor: pointer;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+	box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px; */
 }
 </style>
 
@@ -43,17 +52,9 @@ $(function() {
 		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d"); // 캔버스 객체 생성
 
-		var canvasTemp = document.createElement("canvas");
-		var tempContext = canvasTemp.getContext("2d");
-		var canvasBuffer;
-		var imgWidth = 0;
-		var imgHeight = 0;
-		var imageData = {};
-		var scrollVal = 0;
-		var speed = 2;
-		
-		var canvasWidth = canvas.width;
-		var canvasHeight = canvas.height;
+		var canvasTemp;
+		var tempContext;
+		var canvasBuffer ;
 		
 		// 스크롤 이미지
 		var scrollImg= new Image();
@@ -72,23 +73,19 @@ $(function() {
 		var EnemyHangul; // 스테이지1 적객체 배열
 		var hangulViewCount=1; // 화면에 보이는 적객체 수 설정
 		var EnemyHangulMax = 10; // 미리 준비해두는 적객체 최대수
-		// 단어장 DB에서 가져온 값을 여기다가 넣어야함니까  그럴꺼면 이 페이지로 이동 시킬때 모델안에 단어장DB가 JSON배열로 들어가있어야겠구뇽
-		// 힘내 미래의 나
-		// var hangulWord = "${wordDB}";
-		
+// 단어장
 		
 		// 시동 걸기
 		function loadGame() {
 			// 기본 객체들 채워주기
 			canvasBuffer = document.createElement("canvas"); // 캔버스에 펜있다고 넣어주기
 			
-			// 백그라운드 이미지
-			scrollImg.src = "<%=cp%>/resources/images/city.png";
-			scrollImg.onload = loadImage;
-			
 			// 배경음악 객체 채워주는 함수 호출
 			makeBackGroungMusic(); 
-
+			
+			// 백그라운드 이미지
+			scrollImg.src = "<%=cp%>/resources/images/city.png";
+			
 			// 플레이 객체들 채워주기
 			makePlayerUnit();
 			
@@ -101,31 +98,23 @@ $(function() {
 			document.addEventListener("keyup", getKeyUp, false);
 			
 			// 게임 스타트
-			startGame();
+			// loopGame(); // 게임 스타트 함수 호출
+			scrollImg.onload = startGame; // 배경이미지 로딩이 끝나면 게임 스타트 함수 호출
 		}
 		
 		// 게임 실행
 		function startGame(){
+			// 배경화면 스크롤 함수
+			// 그릴 배경화면 찾기 로직
+			// 끝에 오면 처음부분이랑 연결함
+			// 그리기
 			
 			// 캐릭터 짬프는 키보드 입력 받는 곳에서 해결됨
-			// 캐릭터 짬프 애니메이션 - 3씩 올라갔다가 3씩 내려옴
-			// 점프 애니메이션이 실행되는 동안에는 점프 키 입력을 받아도 모른척 해야함
-			// 라잌 쿠키런
 						
-			// 적이 지정된 시간마다 움직임
+			// 적이 지정된 시간마다 움직임 // setTimeout, setInterval
 			setInterval(() => {
-				// 배경화면 스크롤 함수
-				// 스크롤 한바퀴 다돌아 간경우 스크롤을 초기화한다
-				if (scrollVal >= canvas.height - speed) {
-					scrollVal = 0;
-				}
-				
-				// 지정된 속도를 기준으로 스크롤의 값이 늘어난다(그리는 위치가 변경된다)
-				scrollVal += speed;
-				
 				// 단어 움직임 로직
 				useEnemyHangul();
-				
 				// 그리기
 				renderGame();
 			},  1000 / 60);  //60
@@ -137,12 +126,9 @@ $(function() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			
 			// 배경 그리기
-			imageData = tempContext.getImageData(0, canvas.height - scrollVal, canvas.width, canvas.height);
-			ctx.putImageData(imageData, 0, 0, 0, 0, canvas.width, imgHeight);
-
-			// 배경 스크롤을 그려주는 부분
-			imageData = tempContext.getImageData(0, 0, canvas.width, canvas.height - scrollVal);
-			ctx.putImageData(imageData, 0, scrollVal, 0, 0, canvas.width, imgHeight);
+			ctx.drawImage(scrollImg, 0, 0);
+			// ,새로 받은 배경의 값을 넣어야함 스크롤 이미지를 넣는게 아니고 위에서 반복되는 이미지 캡쳐부분만 그리는 걸걸
+			// 원하는 부분만 캡처하는 방법이 뭐드라
 			
 			// 플레이어 그리기
 			var rectangle = new Path2D();
@@ -170,6 +156,15 @@ $(function() {
 	
 		// 배경 이미지 로딩
 		function loadImage() {
+			
+			if (scrollVal >= canvasHeight - speed) {
+				scrollVal = 0;
+			}
+			/* 혹시 스크롤 한바퀴 다돌아 간경우 스크롤을 초기화한다 */
+
+			scrollVal += speed;
+			/* 지정된 속도를 기준으로 스크롤의 값이 늘어난다(그리는 위치가 변경된다) */
+			
 			/* 사용된 이미지의 폭과 너비를 저장하고 그림용 펜의 역할을 수행하는 캔버스 템프에도 담아둔다  */
 			imgWidth = scrollImg.width;
 			imgHeight = scrollImg.height;

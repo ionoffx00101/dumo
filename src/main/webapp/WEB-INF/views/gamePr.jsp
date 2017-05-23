@@ -134,13 +134,28 @@ $(function() {
 				// 단어 움직임 로직
 				useEnemyHangul();
 				
-				// 적객체와 플레이어 충돌 처리		
+				// 적객체와 플레이어 충돌 처리		 안됨
 				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
 					
 					var oneHangul = EnemyHangul[i];
-					
+				
+					console.log(oneHangul);
 				 	 if(oneHangul.use){
-				 		console.log(playerUnit.x+" , "+playerUnit.y+" / "+oneHangul.x+", "+oneHangul.y);
+				 		if(oneHangul.y=380 && spacekey){	
+				 			var bamX = oneHangul.x - playerUnit.x;
+					 		console.log(playerUnit.width);
+					 		if(bamX<=playerUnit.width){
+					 			EnemyHangul[i].use=false;
+					 		}
+				 		}else if(oneHangul.y=420 && !spacekey){
+				 			
+				 			var bamX = oneHangul.x - playerUnit.x;
+					 		console.log(playerUnit.width);
+					 		if(bamX<=playerUnit.width){		 			
+					 			EnemyHangul[i].use=false;
+					 		}
+				 		}
+				 		
 					}
 				}
 				
@@ -223,11 +238,15 @@ $(function() {
 		
 		// 플레이어 객체 만드는 곳
 		function makePlayerUnit(){
+			
+			var imgWalkWidth = 80;
+			var imgWalkHeight = 110;
+			
 			playerUnit = {
 					x : 100,
-					y : 330,
-					width : 150,
-					height : 150,
+					y : 350,
+					width : imgWalkWidth,
+					height : imgWalkHeight,
 					walk:true
 			};
 		}
@@ -243,12 +262,16 @@ $(function() {
 					word:"",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
 					wordCheck:true, // 단어의 정답 여부
 					use :false //1 캔버스에 그려주는 지 스킵하는지 용도
-				}; 
+				};
 				EnemyHangul.push(enemy);
 			}
 		}
 		// 한글 객체를 쓰는 곳
 		function useEnemyHangul() {
+			
+			// DB에서 가져온 배열중 
+			// 한개를 뽑아서 밑에 집어넣는다
+			
 			var useCount = 0;
 			// 화면에 보이는 단어 3개로 조정하기 위해서
 			for(var i=0; i<EnemyHangul.length;i++){
@@ -261,7 +284,7 @@ $(function() {
 			// 화면에 보이는 게 hangulViewCount이하면 한개 내보냄
 			if(useCount<hangulViewCount){
 				// 랜덤 Y값 준비
-				var startY=((Math.random() <= 0.5) ? 380 : 420);//)*150;
+				var startY=((Math.random() <= 0.5) ? 350 : 420);//)*150;
 				// X값 초기화, Y값이랑 word값, use 값을 고쳐야함
 				
 				var bool = true;

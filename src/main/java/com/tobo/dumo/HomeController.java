@@ -36,12 +36,4 @@ public class HomeController {
 		
 		return "gamePr";
 	}
-	
-	@RequestMapping(value = "/gamePrBack", method = RequestMethod.GET)
-	public String goToGameBack(Locale locale, Model model) {
-
-		
-		return "gamePrBack";
-	}
-	
 }

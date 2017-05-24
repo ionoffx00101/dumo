@@ -206,6 +206,25 @@
  					}
  				} */
  				
+				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
+ 					
+ 					var oneHangul = EnemyHangul[i];
+ 				
+ 					//일단 쓰는 한글인지 조사
+ 				 	if(oneHangul.use){
+ 				 		// X충돌값 확인 >  Y 거리 확인 > 처리
+ 				 		var bamX = oneHangul.x - playerUnit.x;
+ 				 		if(bamX<=playerUnit.width){
+ 				 			if(oneHangul.y-playerUnit.y==70){//아래
+ 		 				 		console.log("아래");
+ 		 				 	}else if (oneHangul.y-playerUnit.y==92){ // 위
+ 		 				 		console.log("위");
+ 							}
+				 			EnemyHangul[i].use=false;
+				 		}
+ 					}
+ 				}
+ 				
  				// 그리기
  				renderGame();
  			},  1000 / 60);  //60

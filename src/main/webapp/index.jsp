@@ -50,8 +50,15 @@
  var stageOneEnd = false;
  var stageTwoEnd = false;
  var stargeThreeEnd =false;
+
  $(function() {
- 	
+		// 창 크기 바뀌면 할 것...
+	    $( window ).resize(function() {
+	    	 var windowWidth = $(window).width()*2/3; //document -350
+
+	    	 $("canvas").attr("width", windowWidth).attr("height", 500);
+	    });
+	    
  		// 캔버스 친구들
  		var canvas = document.getElementById("canvas");
  		var ctx = canvas.getContext("2d"); // 캔버스 객체 생성
@@ -380,7 +387,7 @@
  		}
  		// 방향키 입력 처리
  		function calcKeyInnput() {
- 			console.log("dmdpdp");
+
  			if (keyPressOn["287"] && playerUnit.y >= -playerUnit.height / 2)
  				//console.log("287");
  			if (keyPressOn["283"] && playerUnit.y <= canvas.height - playerUnit.height / 2)
@@ -389,15 +396,23 @@
  				//console.log("265");
  			if (keyPressOn["268"] && playerUnit.x <= canvas.width - playerUnit.width / 2)
  				//console.log("268");
- 		
+ 	 			
+ 	 		console.log("1 : "+spacekey+","+playerUnit.y);
  			if(spacekey){
+ 				console.log("2 : "+spacekey+","+playerUnit.y);
  				if(!oneSpacekey){
+ 					console.log("3 : "+spacekey+","+playerUnit.y);
  				playerUnit.y-=175;
+ 				console.log("4 : "+spacekey+","+playerUnit.y);
  				oneSpacekey=true;
+ 				console.log("5 : "+spacekey+","+playerUnit.y);
  				}
  			}else{
+ 				console.log("6 : "+spacekey+","+playerUnit.y);
  				playerUnit.y+=175;
+ 				console.log("7 : "+spacekey+","+playerUnit.y);
  				oneSpacekey=false;
+ 				console.log("8 : "+spacekey+","+playerUnit.y);
  			}
  			// 그림 다시 그리기
  			renderGame();

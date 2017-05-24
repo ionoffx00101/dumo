@@ -1,0 +1,16 @@
+#title {
+	font-family: 'Jeju Gothic', serif;
+}
+
+/* 캔버스 위치, 크기 체크용 */
+#canvas {
+	position: relative;
+	border: 1px solid #d3d3d3;;
+}
+/* 유리판 */
+#glassPane {
+	position: absolute;
+	left: 450px;
+	top: 150px;
+	padding: 0px 20px 10px 10px;
+}

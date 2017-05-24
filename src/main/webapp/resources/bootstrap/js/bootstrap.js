@@ -340,7 +340,7 @@ if (typeof jQuery === 'undefined') {
     keyboard: true
   }
 
-  Carousel.prototype.keydown = function (e) {
+ /* Carousel.prototype.keydown = function (e) {
     if (/input|textarea/i.test(e.target.tagName)) return
     switch (e.which) {
       case 37: this.prev(); break
@@ -349,7 +349,7 @@ if (typeof jQuery === 'undefined') {
     }
 
     e.preventDefault()
-  }
+  }*/
 
   Carousel.prototype.cycle = function (e) {
     e || (this.paused = false)

@@ -17,7 +17,7 @@
 /* 캔버스 위치, 크기 체크용 */
 #canvas {
 	position: absolute;
-	border: 1px solid #d3d3d3;;
+	/* border: 1px solid #d3d3d3;; */
 }
 /* 유리판 */
 #glassPane {

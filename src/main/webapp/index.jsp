@@ -52,17 +52,31 @@
  var stargeThreeEnd =false;
 
  $(function() {
+		
+		/* 	
+		//크기 조정 친구들
+		var windowWidth = $(window).width()*2/3; //document -350
+		$("canvas").attr("width", windowWidth).attr("height", 500);
+		//$("#startBtn").attr("width", canvas.getWidth()/2).attr("height", canvas.getHeigth()/2);
+		 
 		// 창 크기 바뀌면 할 것...
 	    $( window ).resize(function() {
-	    	 var windowWidth = $(window).width()*2/3; //document -350
-
+	    	 windowWidth = $(window).width()*2/3; //document -350
 	    	 $("canvas").attr("width", windowWidth).attr("height", 500);
-	    });
-	    
- 		// 캔버스 친구들
- 		var canvas = document.getElementById("canvas");
- 		var ctx = canvas.getContext("2d"); // 캔버스 객체 생성
-
+	    }); 
+		*/
+		
+	 	// 캔버스 친구들
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d"); // 캔버스 객체 생성
+		
+		// 플레이 버튼 위치 설정
+		//$("#startBtn").css('top',(canvas.width/2)+75+'px');
+	/* 	$("#startBtn").css('left',(canvas.height/2)+75+'px');
+		console.log((canvas.width/2)+150);
+		console.log((canvas.height/2)+150); */
+		
+		// 배경화면 그려주는 친구들
  		var canvasTemp = document.createElement("canvas");
  		var tempContext = canvasTemp.getContext("2d");
  		var canvasBuffer;
@@ -70,8 +84,9 @@
  		var imgHeight = 0;
  		var imageData = {};
  		var scrollVal = 0;
- 		var speed = 1;
+ 		var speed = 1; // 스크롤 속도
  		
+ 		// 스크롤 이미지 크기
  		var canvasWidth = 2937;//canvas.width;
  		var canvasHeight = 532;//canvas.height;
  		
@@ -83,7 +98,7 @@
  		var canvasPen; // 캔버스에 그림을 그리는 펜
  		var keyPressOn = {}; //키 배열, pressed - true
  		var spacekey = false; // 스페이스 키
- 		var oneSpacekey =false; 
+ 		var oneSpacekey = false; // 스페이스 키 중복 처리 방지용
  		
  		// 플레이어 객체
  		var playerUnit={}; // 플레이어
@@ -91,7 +106,7 @@
  		var playerImgWalk2= new Image();
  		var playerImgJump= new Image();
  		var playerWalkTime = 0;
- 		var playerWalkTimeLimit =20;
+ 		var playerWalkTimeLimit =20; // 걷는 애니메이션 반복 속도
  		
  		// 스테이지 1 적 객체
  		var EnemyHangul; // 스테이지1 적객체 배열
@@ -99,8 +114,7 @@
  		var EnemyHangulMax = 10; // 미리 준비해두는 적객체 최대수
  		// 단어장 DB에서 가져온 값을 여기다가 넣어야함니까  그럴꺼면 이 페이지로 이동 시킬때 모델안에 단어장DB가 JSON배열로 들어가있어야겠구뇽
  		// 힘내 미래의 나
- 		// var hangulWord = "${wordDB}";
- 		
+ 		// var hangulWord = "${wordDB}"; // 단어랑 단어 정답여부 두개 가져와야함
  		
  		// 시동 걸기
  		function loadGame() {
@@ -109,20 +123,21 @@
  			
  			// 백그라운드 이미지
  			scrollImg.src = "<%=cp%>/resources/images/city.png";
- 			scrollImg.onload = loadImage;
+ 			scrollImg.onload = loadImage; // 스크롤 이미지 불러오기 완료되야 loadimage를 호출한다
  			
  			// 배경음악 객체 채워주는 함수 호출
  			makeBackGroungMusic(); 
 
- 			// 플레이 객체들 채워주기
+ 			// 플레이어 객체들 채워주기
  			makePlayerUnit();
- 			playerImgWalk1.src = "<%=cp%>/resources/images/charactor/female_walk1.png";
- 			playerImgWalk2.src = "<%=cp%>/resources/images/charactor/female_walk2.png";
- 			playerImgJump.src = "<%=cp%>/resources/images/charactor/female_jump.png";
+ 			// 플레이어 이미지 추가
+ 			playerImgWalk1.src = "<%=cp%>/resources/images/charactor/female_walk1_re.png";
+ 			playerImgWalk2.src = "<%=cp%>/resources/images/charactor/female_walk2_re.png";
+ 			playerImgJump.src = "<%=cp%>/resources/images/charactor/female_jump_re.png";
  			
  			// 한글 적 객체 채우기
  			EnemyHangul= new Array();
- 			createEnemyHangul(EnemyHangulMax); // 최대값 만큼 객체 생성
+ 			createEnemyHangul(EnemyHangulMax); // 최대값 만큼 객체 생성 / 최대값은 DB에 있는 단어만큼 생성하는게 어떨까 / 그리고 서버가 터졌다 
  		
  			// 창 자체에 이벤트 리스너를 설정 //document O, canvas X , window O
  			document.addEventListener("keydown", getKeyDown, false);
@@ -197,6 +212,7 @@
  			imageData = tempContext.getImageData(0, 0, canvasWidth - scrollVal, canvasHeight);
  			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvasHeight);
  			
+ 			ctx.fillText(playerUnit.y+"",playerUnit.x,playerUnit.y); // x, y
  			// 플레이어 그리기
  			if(!spacekey){ //playerUnit.jump
  				if(playerUnit.walk){
@@ -260,7 +276,7 @@
  		function makePlayerUnit(){
  			
  			var imgWalkWidth = 80;
- 			var imgWalkHeight = 110;
+ 			var imgWalkHeight = 92;
  			
  			playerUnit = {
  					x : 100,
@@ -388,31 +404,14 @@
  		// 방향키 입력 처리
  		function calcKeyInnput() {
 
- 			if (keyPressOn["287"] && playerUnit.y >= -playerUnit.height / 2)
- 				//console.log("287");
- 			if (keyPressOn["283"] && playerUnit.y <= canvas.height - playerUnit.height / 2)
- 				//console.log("283");
- 			if (keyPressOn["265"] && playerUnit.x >= -playerUnit.width / 2)
- 				//console.log("265");
- 			if (keyPressOn["268"] && playerUnit.x <= canvas.width - playerUnit.width / 2)
- 				//console.log("268");
- 	 			
- 	 		console.log("1 : "+spacekey+","+playerUnit.y);
  			if(spacekey){
- 				console.log("2 : "+spacekey+","+playerUnit.y);
  				if(!oneSpacekey){
- 					console.log("3 : "+spacekey+","+playerUnit.y);
- 				playerUnit.y-=175;
- 				console.log("4 : "+spacekey+","+playerUnit.y);
+ 				playerUnit.y-=92;
  				oneSpacekey=true;
- 				console.log("5 : "+spacekey+","+playerUnit.y);
  				}
  			}else{
- 				console.log("6 : "+spacekey+","+playerUnit.y);
- 				playerUnit.y+=175;
- 				console.log("7 : "+spacekey+","+playerUnit.y);
+ 				playerUnit.y+=92;
  				oneSpacekey=false;
- 				console.log("8 : "+spacekey+","+playerUnit.y);
  			}
  			// 그림 다시 그리기
  			renderGame();
@@ -470,8 +469,8 @@
                 <div class="col-lg-12 text-center">
                     <h1>Ik ben</h1>
                     <canvas id="canvas" width="1000" height="500"></canvas>
-					<div id="glassPane">
-						<img id="startBtn"	src="<%=cp%>/resources/images/Media-Play-128.png" alt="PlayButton" align="middle" style="width: 150px; height: 150px;">
+					<div id="glassPane  text-center">
+						<img id="startBtn"	src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
 					</div>
                 </div>
             </div>

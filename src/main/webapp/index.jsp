@@ -52,7 +52,6 @@
  var stargeThreeEnd =false;
 
  $(function() {
-		
 		/* 	
 		//크기 조정 친구들
 		var windowWidth = $(window).width()*2/3; //document -350
@@ -112,6 +111,19 @@
  		var EnemyHangul; // 스테이지1 적객체 배열
  		var hangulViewCount=1; // 화면에 보이는 적객체 수 설정
  		var EnemyHangulMax = 10; // 미리 준비해두는 적객체 최대수
+ 		var hangulWord = {"wordDB":[
+ 				{"word":"댕댕","wordCheck":false},
+ 				{"word":"강하다","wordCheck":true},
+ 				{"word":"마우스","wordCheck":true},
+ 				{"word":"김밥","wordCheck":true},
+ 				{"word":"낭낭하다","wordCheck":false},
+ 				{"word":"배고프다","wordCheck":true},
+ 				{"word":"외않되","wordCheck":false},
+ 				{"word":"왜안돼","wordCheck":true},
+ 				{"word":"게임","wordCheck":true},
+ 				{"word":"가나다라","wordCheck":true},
+ 			]};
+ 		
  		// 단어장 DB에서 가져온 값을 여기다가 넣어야함니까  그럴꺼면 이 페이지로 이동 시킬때 모델안에 단어장DB가 JSON배열로 들어가있어야겠구뇽
  		// 힘내 미래의 나
  		// var hangulWord = "${wordDB}"; // 단어랑 단어 정답여부 두개 가져와야함
@@ -296,7 +308,7 @@
  					width:0,
  					height:0,
  					word:"",//Math.floor(Math.random() * 10);// 랜덤수 // 그냥 123 할까
- 					wordCheck:true, // 단어의 정답 여부
+ 					wordCheck:false, // 단어의 정답 여부
  					use :false //1 캔버스에 그려주는 지 스킵하는지 용도
  				};
  				EnemyHangul.push(enemy);
@@ -307,6 +319,7 @@
  			
  			// DB에서 가져온 배열중 
  			// 한개를 뽑아서 밑에 집어넣는다
+ 			//hangulWord
  			
  			var useCount = 0;
  			// 화면에 보이는 단어 3개로 조정하기 위해서
@@ -326,12 +339,15 @@
  				var bool = true;
  				while(bool){
  					var randomNum = Math.floor((Math.random() * 10));
+ 					console.log();
+ 					
  					if(!EnemyHangul[randomNum].use){
  						bool=false; // 반복문 내보냄
  						
  						EnemyHangul[randomNum].x=1000; // x바꿈
  						EnemyHangul[randomNum].y=startY; // Y바꿈
- 						EnemyHangul[randomNum].word="ㅁㅁㅁㅁㅁㅁ";
+ 						EnemyHangul[randomNum].word = hangulWord.wordDB[randomNum].word;
+ 						EnemyHangul[randomNum].wordCheck = hangulWord.wordDB[randomNum].wordCheck;
  						EnemyHangul[randomNum].use=true;
  					}
  				}
@@ -429,7 +445,9 @@
  		
  		// 스타트 버튼 클릭 시 
  		$('#startBtn').click(function(){
-     		$('#startBtn').remove(); // 스타트 버튼을 화면에서 없애기
+            $("#startBtn").hide();
+ 			$('#startBtn').remove(); // 스타트 버튼을 화면에서 없애기
+            $("#canvas").show();
  			loadGame(); // 시작버튼을 누르면 해당 함수가 실행되게 변경
  		});
  	});
@@ -468,10 +486,14 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h1>Ik ben</h1>
-                    <canvas id="canvas" width="1000" height="500"></canvas>
-					<div id="glassPane text-center">
+                    
+                    <div id="glassPane text-center">
 						<img id="startBtn"	src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
+					<canvas id="canvas" width="1000" height="500" style="display: none;"></canvas>
 					</div>
+					
+					
+					
                 </div>
             </div>
             <!-- /.row -->

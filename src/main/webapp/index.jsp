@@ -469,7 +469,7 @@
                 <div class="col-lg-12 text-center">
                     <h1>Ik ben</h1>
                     <canvas id="canvas" width="1000" height="500"></canvas>
-					<div id="glassPane  text-center">
+					<div id="glassPane text-center">
 						<img id="startBtn"	src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
 					</div>
                 </div>

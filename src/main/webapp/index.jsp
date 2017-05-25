@@ -121,12 +121,13 @@
  				{"word":"외않되","wordCheck":false},
  				{"word":"왜안돼","wordCheck":true},
  				{"word":"게임","wordCheck":true},
- 				{"word":"가나다라","wordCheck":true},
+ 				{"word":"가나다라","wordCheck":true}
  			]};
- 		
  		// 단어장 DB에서 가져온 값을 여기다가 넣어야함니까  그럴꺼면 이 페이지로 이동 시킬때 모델안에 단어장DB가 JSON배열로 들어가있어야겠구뇽
  		// 힘내 미래의 나
  		// var hangulWord = "${wordDB}"; // 단어랑 단어 정답여부 두개 가져와야함
+ 		
+ 		var scoreOne = 0; // 스코어 체크
  		
  		// 시동 걸기
  		function loadGame() {
@@ -181,28 +182,26 @@
  				// 단어 움직임 로직
  				useEnemyHangul();
  				
- 				// 적객체와 플레이어 충돌 처리		 안됨
- 				/* for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
+ 				// 적객체와 플레이어 충돌 처리 // 됨 근데 범위가 넓음
+/* 				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
  					
  					var oneHangul = EnemyHangul[i];
  				
- 					//console.log(oneHangul);
- 				 	 if(oneHangul.use){
- 				 		if(oneHangul.y=380 && spacekey){	
- 				 			var bamX = oneHangul.x - playerUnit.x;
- 					 		//console.log(playerUnit.width);
- 					 		if(bamX<=playerUnit.width){
- 					 			EnemyHangul[i].use=false;
- 					 		}
- 				 		}else if(oneHangul.y=420 && !spacekey){
- 				 			
- 				 			var bamX = oneHangul.x - playerUnit.x;
- 					 		console.log(playerUnit.width);
- 					 		if(bamX<=playerUnit.width){		 			
- 					 			EnemyHangul[i].use=false;
- 					 		}
- 				 		}
- 				 		
+ 					//일단 쓰는 한글인지 조사
+ 				 	if(oneHangul.use){
+ 				 		//  Y 거리 확인 > X충돌값 확인  > 처리
+ 				 		var bamX = oneHangul.x - playerUnit.x;
+
+ 				 		if(bamX<=playerUnit.width){
+ 				 			if(oneHangul.y-playerUnit.y==70){//아래
+ 		 				 		
+ 				 			EnemyHangul[i].use=false;
+ 		 				 	}else if (oneHangul.y-playerUnit.y==92){ // 위
+ 		 				 		
+ 		 				 	EnemyHangul[i].use=false;
+ 							}
+				 			
+				 		}
  					}
  				} */
  				
@@ -212,15 +211,21 @@
  				
  					//일단 쓰는 한글인지 조사
  				 	if(oneHangul.use){
- 				 		// X충돌값 확인 >  Y 거리 확인 > 처리
+ 				 		//  Y 거리 확인 > X충돌값 확인  > 처리
  				 		var bamX = oneHangul.x - playerUnit.x;
- 				 		if(bamX<=playerUnit.width){
+ 				 		
+ 				 		if(bamX<=playerUnit.width && (playerUnit.width-bamX<playerUnit.width || playerUnit.width-bamX<playerUnit.width+(playerUnit.width/2))){
+ 				 			
+ 				 			scoreOne = playerUnit.width-bamX; // log
+ 				 			
  				 			if(oneHangul.y-playerUnit.y==70){//아래
- 		 				 		console.log("아래");
+ 		 				 		
+ 				 			EnemyHangul[i].use=false;
  		 				 	}else if (oneHangul.y-playerUnit.y==92){ // 위
- 		 				 		console.log("위");
+ 		 				 		
+ 		 				 	EnemyHangul[i].use=false;
  							}
-				 			EnemyHangul[i].use=false;
+				 			
 				 		}
  					}
  				}
@@ -243,7 +248,8 @@
  			imageData = tempContext.getImageData(0, 0, canvasWidth - scrollVal, canvasHeight);
  			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvasHeight);
  			
- 			ctx.fillText(playerUnit.y+"",playerUnit.x,playerUnit.y); // x, y
+ 			ctx.fillText(scoreOne+"",playerUnit.x,playerUnit.y); // x, y
+ 			
  			// 플레이어 그리기
  			if(!spacekey){ //playerUnit.jump
  				if(playerUnit.walk){
@@ -310,7 +316,7 @@
  			var imgWalkHeight = 92;
  			
  			playerUnit = {
- 					x : 100,
+ 					x : 150,
  					y : 350,
  					width : imgWalkWidth,
  					height : imgWalkHeight,

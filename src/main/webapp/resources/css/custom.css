@@ -1,13 +1,21 @@
 /* @CHARSET "UTF-8"; */
  /************* Common *************/ 
 
-@font-face {
+/* @font-face {
   font-family: 'koverwatch'; 
 
   src: url('../fonts/koverwatch.ttf') format('truetype');
-} 
+}  */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(//fonts.googleapis.com/earlyaccess/nanumbrushscript.css); /* 폰트 많이 이상함 */
+@import url(//fonts.googleapis.com/earlyaccess/notosansoriyaui.css);
+
 #title {
-	font-family: 'koverwatch';
+	margin-top:50px;
+	/* margin-bottom:100px; */
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight: bold;
+	/* font-family: 'Noto Sans Oriya UI', sans-serif; */
 }
 
 /* 캔버스 위치, 크기 체크용 */
@@ -22,4 +30,7 @@
  	left: 450px;
 	top: 150px;
 	padding: 0px 20px 10px 10px;  */
+}
+#playbutton{
+	
 }

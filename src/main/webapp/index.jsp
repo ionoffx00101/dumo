@@ -48,11 +48,12 @@
 	<script type="text/javascript" src="<%=cp%>/resources/bootstrap/js/bootstrap.js"></script>
 
  <script type="text/javascript">
- var stageOneEnd = false;
+
  var stageTwoEnd = false;
  var stargeThreeEnd =false;
 
  $(function() {
+	 var stageOneEnd = false;
 		/* 	
 		//크기 조정 친구들
 		var windowWidth = $(window).width()*2/3; //document -350
@@ -218,6 +219,7 @@
  				
  				// 게임 끝나는 지 여부 확인 하고 엔딩 화면 그려줌..?
  				if(scoreOne>=5){
+ 					stageOneEnd=true;
  					clearInterval(stageOneInterval);
  					clearGame();
  				}
@@ -453,8 +455,10 @@
  				playerUnit.y+=92;
  				oneSpacekey=false;
  			}
- 			// 그림 다시 그리기
- 			renderGame();
+ 			// 게임 상태가 아닐때만 그림 다시 그리기
+ 			if(!stageOneEnd){
+ 				renderGame();
+ 			}
  		}
  		
  		// 배경음악 객체 채워주기
@@ -487,7 +491,7 @@
                 <a href="#top" class="menu-close">Ik ben</a>
             </li>
             <li>
-                <a href="#top" class="menu-close">Game</a>
+                <a href="#game" class="menu-close">Game</a>
             </li>
             <li>
                 <a href="#word" class="menu-close">Word</a>
@@ -510,21 +514,31 @@
             <div class="row">
                 <div class="col-lg-12 text-center" id="title">
                     <h1>Ik ben</h1>
-                    
-                    <div id="glassPane text-center">
-						<img id="startBtn"	src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
-					<canvas id="canvas" width="1000" height="750" style="display: none;"></canvas>
-					</div>
-                </div>
+                 </div>  
+                   
             </div>
             <!-- /.row -->
         </div>
         <!-- /.container -->
     </header>
-    
+    <hr/>
+    <!-- game -->
+	<section id="game" class="game">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center"> <!-- glasspane -->
+						<img id="startBtn"	id="playbutton" src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
+					<canvas id="canvas" width="1000" height="500" style="display: block;"></canvas>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container --> 
+	</section>
+	
 <hr/>
 
-	<!-- Game / about -->
+	<!-- word-->
 	<section id="word" class="word">
 		<div class="container">
 			<div class="row">
@@ -615,7 +629,7 @@
     <!-- Callout -->
     <aside class="callout" id="callout">
         <div class="text-vertical-center">
-            <h1>ㅎㅎㅎ</h1>
+            <h1></h1>
         </div>
     </aside>
 
@@ -655,11 +669,22 @@
     <aside class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
-                  <!--   <h3>The buttons below are impossible to resist.</h3>
-                    <a href="#" class="btn btn-lg btn-light">Click Me!</a>
-                    <a href="#" class="btn btn-lg btn-dark">Look at Me!</a> -->
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h2>공부할 것</h2>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>asdasdsd</h3>
+                            <br/>
+                            <p>zxczx</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>asdasdsd</h3>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
                 </div>
+                <!-- /.col-lg-10 -->
             </div>
         </div>
     </aside>

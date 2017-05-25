@@ -30,6 +30,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"> 
     <!-- Custom Fonts2 -->
 	<!-- <link href="http://fonts.googleapis.com/earlyaccess/jejugothic.css" rel="stylesheet" type="text/css">  -->
+	<%-- <link href="<%=cp%>/resources/font/koverwatch.ttf" rel="stylesheet"  type="text/css"> --%>
 	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -114,19 +115,20 @@
  		var hangulWord = {"wordDB":[
  				{"word":"댕댕","wordCheck":false},
  				{"word":"강하다","wordCheck":true},
- 				{"word":"마우스","wordCheck":true},
- 				{"word":"김밥","wordCheck":true},
+ 				{"word":"마춤뻡","wordCheck":false},
+ 				{"word":"맞춤법","wordCheck":true},
  				{"word":"낭낭하다","wordCheck":false},
  				{"word":"배고프다","wordCheck":true},
  				{"word":"외않되","wordCheck":false},
- 				{"word":"왜안돼","wordCheck":true},
- 				{"word":"게임","wordCheck":true},
- 				{"word":"가나다라","wordCheck":true}
+ 				{"word":"왜 안돼","wordCheck":true},
+ 				{"word":"껌을 싶다","wordCheck":false},
+ 				{"word":"안 그레요","wordCheck":false}
  			]};
  		// 단어장 DB에서 가져온 값을 여기다가 넣어야함니까  그럴꺼면 이 페이지로 이동 시킬때 모델안에 단어장DB가 JSON배열로 들어가있어야겠구뇽
  		// 힘내 미래의 나
  		// var hangulWord = "${wordDB}"; // 단어랑 단어 정답여부 두개 가져와야함
  		
+ 		var stageOneInterval; // 타이머 변수용
  		var scoreOne = 0; // 스코어 체크
  		
  		// 시동 걸기
@@ -169,7 +171,7 @@
  			// 라잌 쿠키런
  						
  			// 적이 지정된 시간마다 움직임
- 			setInterval(() => {
+ 			stageOneInterval = setInterval(() => {
  				// 배경화면 스크롤 함수
  				// 스크롤 한바퀴 다돌아 간경우 스크롤을 초기화한다
  				if (scrollVal <= speed) { //1 5 0 2가 0오류 안남
@@ -182,29 +184,7 @@
  				// 단어 움직임 로직
  				useEnemyHangul();
  				
- 				// 적객체와 플레이어 충돌 처리 // 됨 근데 범위가 넓음
-/* 				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
- 					
- 					var oneHangul = EnemyHangul[i];
- 				
- 					//일단 쓰는 한글인지 조사
- 				 	if(oneHangul.use){
- 				 		//  Y 거리 확인 > X충돌값 확인  > 처리
- 				 		var bamX = oneHangul.x - playerUnit.x;
-
- 				 		if(bamX<=playerUnit.width){
- 				 			if(oneHangul.y-playerUnit.y==70){//아래
- 		 				 		
- 				 			EnemyHangul[i].use=false;
- 		 				 	}else if (oneHangul.y-playerUnit.y==92){ // 위
- 		 				 		
- 		 				 	EnemyHangul[i].use=false;
- 							}
-				 			
-				 		}
- 					}
- 				} */
- 				
+ 				// 적객체와 플레이어 충돌 처리 // 됨 범위 좁힌 버전
 				for(var i=0;i<EnemyHangul.length;i++){ // 적객 체 돌려
  					
  					var oneHangul = EnemyHangul[i];
@@ -214,24 +194,33 @@
  				 		//  Y 거리 확인 > X충돌값 확인  > 처리
  				 		var bamX = oneHangul.x - playerUnit.x;
  				 		
- 				 		if(bamX<=playerUnit.width && (playerUnit.width-bamX<playerUnit.width || playerUnit.width-bamX<playerUnit.width+(playerUnit.width/2))){
- 				 			
- 				 			scoreOne = playerUnit.width-bamX; // log
+ 				 		if(bamX<=playerUnit.width && (playerUnit.width-bamX<playerUnit.width || playerUnit.width-bamX<playerUnit.width+5)){
  				 			
  				 			if(oneHangul.y-playerUnit.y==70){//아래
- 		 				 		
- 				 			EnemyHangul[i].use=false;
+ 				 				// 적 객체 체크가 true면 +1 false면 -1
+ 	 				 			if(oneHangul.wordCheck){
+ 	 				 				scoreOne++;	
+ 	 				 			}
+ 				 				EnemyHangul[i].use=false;
+ 				 			
  		 				 	}else if (oneHangul.y-playerUnit.y==92){ // 위
- 		 				 		
- 		 				 	EnemyHangul[i].use=false;
- 							}
-				 			
+ 		 				 		// 적 객체 체크가 true면 +1 false면 -1
+ 	 				 			if(oneHangul.wordCheck){
+ 	 				 				scoreOne++;	
+ 	 				 			}
+ 		 				 		EnemyHangul[i].use=false;
+ 							}	
 				 		}
  					}
  				}
- 				
  				// 그리기
  				renderGame();
+ 				
+ 				// 게임 끝나는 지 여부 확인 하고 엔딩 화면 그려줌..?
+ 				if(scoreOne>=5){
+ 					clearInterval(stageOneInterval);
+ 					clearGame();
+ 				}
  			},  1000 / 60);  //60
  		}
  		
@@ -289,9 +278,19 @@
  						oneHangul.use= false;
  					}
  				}
- 			}
- 			
+ 			}		
  		}
+ 		// 게임 끝났을 때 화면
+ 		function clearGame(){
+ 		// 지우기
+ 			ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 		
+ 			ctx.font="50px Georgia";
+				ctx.fillStyle = 'black';
+				ctx.fillText("끝",500,250); // x, y
+ 		
+ 		}
+ 		
  	
  		// 배경 이미지 로딩
  		function loadImage() {
@@ -491,16 +490,16 @@
                 <a href="#top" class="menu-close">Game</a>
             </li>
             <li>
-                <a href="#about" class="menu-close">Word</a>
+                <a href="#word" class="menu-close">Word</a>
             </li>
             <li>
-                <a href="#services" class="menu-close">about</a>
+                <a href="#about" class="menu-close">about</a>
+            </li>
+             <li>
+                <a href="#callout" class="menu-close">picture</a>
             </li>
             <li>
-                <a href="#portfolio" class="menu-close">git,blog</a>
-            </li>
-            <li>
-                <a href="#contact" class="menu-close">Contact</a>
+                <a href="#git" class="menu-close">git,blog</a>
             </li>
         </ul>
     </nav>
@@ -509,40 +508,42 @@
     <header id="top" class="header">
          <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-12 text-center" id="title">
                     <h1>Ik ben</h1>
                     
                     <div id="glassPane text-center">
 						<img id="startBtn"	src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
-					<canvas id="canvas" width="1000" height="500" style="display: none;"></canvas>
+					<canvas id="canvas" width="1000" height="750" style="display: none;"></canvas>
 					</div>
-					
-					
-					
                 </div>
             </div>
             <!-- /.row -->
         </div>
         <!-- /.container -->
     </header>
+    
 <hr/>
-	<!-- Game -->
-	<section id="about" class="about">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<form action="">
-				<input type="text"/>
-				</form>
+
+	<!-- Game / about -->
+	<section id="word" class="word">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<form action="">
+					<input type="text"/>
+					</form>
+				</div>
 			</div>
+			<!-- /.row -->
 		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /.container --> </section>
+		<!-- /.container --> 
+	</section>
+	
 <hr/>
-	<!-- Services -->
+
+	<!-- / Services -->
     <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
-    <section id="services" class="services bg-primary">
+    <section id="about" class="about bg-primary">
         <div class="container">
             <div class="row text-center">
                 <div class="col-lg-10 col-lg-offset-1">
@@ -612,51 +613,36 @@
     </section>
 
     <!-- Callout -->
-    <aside class="callout">
+    <aside class="callout" id="callout">
         <div class="text-vertical-center">
-            <h1>Vertically Centered Text</h1>
+            <h1>ㅎㅎㅎ</h1>
         </div>
     </aside>
 
     <!-- Portfolio -->
-    <section id="portfolio" class="portfolio">
+    <section id="git" class="git">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h2>Our Work</h2>
+                    <h2>코딩 흔적</h2>
                     <hr class="small">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="#">
-                                    <!-- <img class="img-portfolio img-responsive" src="img/portfolio-1.jpg"> -->
+                                <a href="https://github.com/tehon">
+                                   <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/GitHub.png" style="width: 150px; height: 150px;">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="#">
-                                    <!-- <img class="img-portfolio img-responsive" src="img/portfolio-2.jpg"> -->
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
-                                    <!-- <img class="img-portfolio img-responsive" src="img/portfolio-3.jpg"> -->
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
-                                    <!-- <img class="img-portfolio img-responsive" src="img/portfolio-4.jpg"> -->
+                                <a href="http://teqoo.tistory.com/">
+                                    <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/Tistory.png" style="width: 150px; height: 150px;">
                                 </a>
                             </div>
                         </div>
                     </div>
                     <!-- /.row (nested) -->
-                    <a href="#" class="btn btn-dark">View More Items</a>
                 </div>
                 <!-- /.col-lg-10 -->
             </div>
@@ -670,47 +656,24 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h3>The buttons below are impossible to resist.</h3>
+                  <!--   <h3>The buttons below are impossible to resist.</h3>
                     <a href="#" class="btn btn-lg btn-light">Click Me!</a>
-                    <a href="#" class="btn btn-lg btn-dark">Look at Me!</a>
+                    <a href="#" class="btn btn-lg btn-dark">Look at Me!</a> -->
                 </div>
             </div>
         </div>
     </aside>
 
     <!-- Footer -->
-    <footer>
+   <!--  <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h4><strong>Start Bootstrap</strong>
-                    </h4>
-                    <p>3481 Melrose Place
-                        <br>Beverly Hills, CA 90210</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
-                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:name@example.com">name@example.com</a>
-                        </li>
-                    </ul>
-                    <br>
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
-                        </li>
-                    </ul>
-                    <hr class="small">
-                    <p class="text-muted">Copyright &copy; Your Website 2014</p>
                 </div>
             </div>
         </div>
         <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
-    </footer>
+    </footer> -->
 
  <!-- Custom Theme JavaScript -->
     <script>

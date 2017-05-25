@@ -1,5 +1,13 @@
+/* @CHARSET "UTF-8"; */
+ /************* Common *************/ 
+
+@font-face {
+  font-family: 'koverwatch'; 
+
+  src: url('../fonts/koverwatch.ttf') format('truetype');
+} 
 #title {
-	font-family: 'Jeju Gothic', serif;
+	font-family: 'koverwatch';
 }
 
 /* 캔버스 위치, 크기 체크용 */

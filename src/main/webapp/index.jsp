@@ -239,7 +239,7 @@
  			imageData = tempContext.getImageData(0, 0, canvasWidth - scrollVal, canvasHeight);
  			ctx.putImageData(imageData, scrollVal,0 , 0, 0, imgWidth, canvasHeight);
  			
- 			ctx.fillText(scoreOne+"",playerUnit.x,playerUnit.y); // x, y
+ 			// ctx.fillText(scoreOne+"",playerUnit.x,playerUnit.y); // x, y 점수 체크용
  			
  			// 플레이어 그리기
  			if(!spacekey){ //playerUnit.jump
@@ -272,7 +272,7 @@
  				var oneHangul = EnemyHangul[i];
  				
  			 	 if(oneHangul.use){
- 					ctx.font="20px Georgia";
+ 					ctx.font="30px Noto Sans KR";
  					ctx.fillStyle = 'white';
  					ctx.fillText(oneHangul.word,oneHangul.x,oneHangul.y); // x, y
  						
@@ -445,7 +445,7 @@
  		}
  		// 방향키 입력 처리
  		function calcKeyInnput() {
-
+ 
  			if(spacekey){
  				if(!oneSpacekey){
  				playerUnit.y-=92;
@@ -521,13 +521,13 @@
         </div>
         <!-- /.container -->
     </header>
-    <hr/>
+    
     <!-- game -->
 	<section id="game" class="game">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center"> <!-- glasspane -->
-						<img id="startBtn"	id="playbutton" src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px;"> <!-- align="middle"  -->
+						<img id="startBtn"	id="playbutton" src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px; "> <!-- align="middle"  -->
 					<canvas id="canvas" width="1000" height="500" style="display: block;"></canvas>
 				</div>
 			</div>
@@ -536,8 +536,6 @@
 		<!-- /.container --> 
 	</section>
 	
-<hr/>
-
 	<!-- word-->
 	<section id="word" class="word">
 		<div class="container">
@@ -552,8 +550,6 @@
 		</div>
 		<!-- /.container --> 
 	</section>
-	
-<hr/>
 
 	<!-- / Services -->
     <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
@@ -561,36 +557,49 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <h2>Our Services</h2>
+                    <h2>캐릭터 정보</h2>
                     <hr class="small">
                     <div class="row">
-                        <div class="col-md-3 col-sm-6">
+                    
+                        <div class="col-md-4">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                                <i class="fa fa-user fa-stack-1x text-primary"></i>
                             </span>
                                 <h4>
-                                    <strong>Service Name</strong>
+                                    <strong>상세 정보</strong>
                                 </h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <a href="#" class="btn btn-light">Learn More</a>
+                                <p>이력서에 쓰던 자기소개 짧게</p>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
+                        
+                        <div class="col-md-4">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-compass fa-stack-1x text-primary"></i>
+                                <i class="fa fa-bookmark fa-stack-1x text-primary"></i>
                             </span>
                                 <h4>
-                                    <strong>Service Name</strong>
+                                    <strong>선호 하는 것</strong>
                                 </h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <a href="#" class="btn btn-light">Learn More</a>
+                                <p>전시회 가기</p>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
+                          <div class="col-md-4">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-code fa-stack-1x text-primary"></i>
+                            </span>
+                                <h4>
+                                    <strong>수상 경력</strong>
+                                </h4>
+                                <p>써도 될까</p>
+                            </div>
+                        </div>
+                        
+        <!--                 <div class="col-md-3 col-sm-6">
                             <div class="service-item">
                                 <span class="fa-stack fa-4x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -600,22 +609,8 @@
                                     <strong>Service Name</strong>
                                 </h4>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <a href="#" class="btn btn-light">Learn More</a>
                             </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="service-item">
-                                <span class="fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-shield fa-stack-1x text-primary"></i>
-                            </span>
-                                <h4>
-                                    <strong>Service Name</strong>
-                                </h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <a href="#" class="btn btn-light">Learn More</a>
-                            </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- /.row (nested) -->
                 </div>
@@ -638,20 +633,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h2>코딩 흔적</h2>
+                    <h2>코딩 일지</h2>
                     <hr class="small">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portfolio-item">
                                 <a href="https://github.com/tehon">
-                                   <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/GitHub.png" style="width: 150px; height: 150px;">
+                                   <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/GitHub.png" style="width: 100px; height: 100px;">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
                                 <a href="http://teqoo.tistory.com/">
-                                    <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/Tistory.png" style="width: 150px; height: 150px;">
+                                    <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/Tistory.png" style="width: 100px; height: 100px;">
                                 </a>
                             </div>
                         </div>
@@ -670,16 +665,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h2>공부할 것</h2>
+                    <h2>스킬</h2>
                     <hr class="small">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3>asdasdsd</h3>
+                            <h3>사용할 줄 아는 스킬</h3>
                             <br/>
-                            <p>zxczx</p>
+                            <p>Java</p>
                         </div>
                         <div class="col-md-6">
-                            <h3>asdasdsd</h3>
+                            <h3>배우고 싶은 스킬</h3>
+                            <p>
+                            	Python <br/>
+                            	Node.js<br/>
+                         	</p>
                         </div>
                     </div>
                     <!-- /.row (nested) -->

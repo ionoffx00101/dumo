@@ -473,9 +473,13 @@
  		
  		// 스타트 버튼 클릭 시 
  		$('#startBtn').click(function(){
-            $("#startBtn").hide();
- 			$('#startBtn').remove(); // 스타트 버튼을 화면에서 없애기
+             $("#startBtn").hide();
+             /*$('#startBtn').remove(); // 스타트 버튼을 화면에서 없애기 */
+ 			
+ 			/* $('#startBtn').css("display", "none"); */
+ 			
             $("#canvas").show();
+ 			
  			loadGame(); // 시작버튼을 누르면 해당 함수가 실행되게 변경
  		});
  	});
@@ -526,30 +530,44 @@
 	<section id="game" class="game">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 text-center"> <!-- glasspane -->
-						<img id="startBtn"	id="playbutton" src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px; "> <!-- align="middle"  -->
-					<canvas id="canvas" width="1000" height="500" style="display: block;"></canvas>
+				<div class="col-lg-12 col-md-offset-5" id="playbutton"> <!-- glasspane -->
+						<img id="startBtn"	 src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px; display: block;"> <!-- align="middle"  -->
+				</div>
+				<div class="col-lg-12 col-md-offset-1"> <!-- glasspane -->
+					<canvas id="canvas" width="1000" height="500" style="display: none;"></canvas> <!-- display: block; none -->
 				</div>
 			</div>
 			<!-- /.row -->
 		</div>
 		<!-- /.container --> 
 	</section>
-	
+
 	<!-- word-->
 	<section id="word" class="word">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<form action="">
-					<input type="text"/>
-					</form>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h2>단어 추가</h2>
+				<hr class="small">
+				<form action="">
+					<div class="col-md-4 col-md-offset-1">
+						<input type="text" class="form-control" />
+					</div>
+					<div class="col-md-4" >
+						<select class="form-control">
+							<option value="true">올바른 맞춤법</option>
+							<option value="false">잘못된 맞춤법</option>
+						</select>
+					</div>
+					<div class="col-md-2">
+					<button type="submit" class="btn btn-primary" style="float:left;">추가</button>
+					</div>
+				</form>
 			</div>
-			<!-- /.row -->
 		</div>
-		<!-- /.container --> 
-	</section>
+		<!-- /.row -->
+	</div>
+	<!-- /.container --> </section>
 
 	<!-- / Services -->
     <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
@@ -570,7 +588,8 @@
                                 <h4>
                                     <strong>상세 정보</strong>
                                 </h4>
-                                <p>이력서에 쓰던 자기소개 짧게</p>
+                                <p>이력서에 쓰던 자기소개 짧게 <br>
+                                구글링을 잘해요!</p>
                             </div>
                         </div>
                         
@@ -638,14 +657,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="https://github.com/tehon">
+                                <a href="https://github.com/tehon"  target="_blank">
                                    <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/GitHub.png" style="width: 100px; height: 100px;">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-item">
-                                <a href="http://teqoo.tistory.com/">
+                                <a href="http://teqoo.tistory.com/"  target="_blank">
                                     <img class="img-portfolio img-responsive" src="<%=cp%>/resources/images/Tistory.png" style="width: 100px; height: 100px;">
                                 </a>
                             </div>

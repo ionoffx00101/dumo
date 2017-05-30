@@ -2,6 +2,9 @@ package com.tobo.dumo.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,12 +14,14 @@ public class AbstractDAO
 {
 	protected Log log = LogFactory.getLog(AbstractDAO.class);
     
-    @Autowired
+    //@Autowired
+	@Inject
+	@Named(value="sqlSession")
     private SqlSessionTemplate sqlSession;
      
     protected void printQueryId(String queryId) {
         if(log.isDebugEnabled()){
-            log.debug("\t QueryId  \t:  " + queryId);
+            //log.debug("\t QueryId  \t:  " + queryId);
         }
     }
      

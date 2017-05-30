@@ -525,22 +525,32 @@
         </div>
         <!-- /.container -->
     </header>
-    
-    <!-- game -->
+
+	<!-- game -->
 	<section id="game" class="game">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-offset-5" id="playbutton"> <!-- glasspane -->
-						<img id="startBtn"	 src="<%=cp%>/resources/images/play-button.png" alt="PlayButton" style="width: 150px; height: 150px; display: block;"> <!-- align="middle"  -->
-				</div>
-				<div class="col-lg-12 col-md-offset-1"> <!-- glasspane -->
-					<canvas id="canvas" width="1000" height="500" style="display: none;"></canvas> <!-- display: block; none -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1">
+				<!-- col-lg-12 glasspane -->
+				<canvas id="canvas" width="1000" height="500" style="display: none;"></canvas> <!-- style="display: none;" -->
+				<!-- display: block; none -->
+				<div class="row">
+					<div class="col-md-12">
+					</div><div class="col-md-12">
+					</div>
+					<div class="col-md-offset-5" id="playbutton">
+						<!--  col-lg-12  glasspane -->
+						<img id="startBtn" src="<%=cp%>/resources/images/play-button.png"
+							alt="PlayButton"
+							style="width: 150px; height: 150px; display: block;">
+						<!-- align="middle"  -->
+					</div>
 				</div>
 			</div>
-			<!-- /.row -->
 		</div>
-		<!-- /.container --> 
-	</section>
+		<!-- /.row -->
+	</div>
+	<!-- /.container --> </section>
 
 	<!-- word-->
 	<section id="word" class="word">
@@ -589,7 +599,7 @@
                                     <strong>상세 정보</strong>
                                 </h4>
                                 <p>이력서에 쓰던 자기소개 짧게 <br>
-                                구글링을 잘해요!</p>
+                                		구글링을 잘해요!</p>
                             </div>
                         </div>
                         

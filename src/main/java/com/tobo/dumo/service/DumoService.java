@@ -1,6 +1,6 @@
 package com.tobo.dumo.service;
 
-public class DumoService implements DumoServiceImpl
+public interface DumoService
 {
-// 실제 구현
+
 }

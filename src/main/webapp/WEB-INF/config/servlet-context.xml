@@ -21,7 +21,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.tobo.dumo" />
+	 <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+ 	 	<beans:property name="basePackage" value="com.tobo.dumo" />   <!-- 이거 넣고 dao 생성 오류가 사라지고 서비스 오류가 생겼다.  -->
+ 	 </beans:bean>
+
+	<context:component-scan base-package="com.tobo.dumo" /><!-- com.tobo.dumo x , com.tobo x -->
 	
 	
 	

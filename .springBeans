@@ -7,8 +7,11 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
+		<config>src/main/webapp/WEB-INF/config/context-datasource.xml</config>
+		<config>src/main/webapp/WEB-INF/config/context-mapper.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>src/main/webapp/WEB-INF/config/servlet-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

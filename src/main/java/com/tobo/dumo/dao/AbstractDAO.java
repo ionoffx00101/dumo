@@ -12,17 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractDAO
 {
-	protected Log log = LogFactory.getLog(AbstractDAO.class);
-    
-    //@Autowired
+
 	@Inject
 	@Named(value="sqlSession")
     private SqlSessionTemplate sqlSession;
      
     protected void printQueryId(String queryId) {
-        if(log.isDebugEnabled()){
-            //log.debug("\t QueryId  \t:  " + queryId);
-        }
+
     }
      
     public Object insert(String queryId, Object params){
